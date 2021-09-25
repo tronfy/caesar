@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>caesar: cryptanalysis minigame</title>
+
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="https://nds.dev.br/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="https://nds.dev.br/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="https://nds.dev.br/favicon-16x16.png"
+		/>
+		<link rel="manifest" href="https://nds.dev.br/site.webmanifest" />
+		<link
+			rel="mask-icon"
+			href="https://nds.dev.br/safari-pinned-tab.svg"
+			color="#ed0e96"
+		/>
+		<meta name="msapplication-TileColor" content="#131313" />
+		<meta name="theme-color" content="#131313" />
+
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/picnic@6.5.5/picnic.min.css"
+		/>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div id="text">
+			<textarea id="cipher" spellcheck="false" readonly></textarea>
+
+			<div>
+				<p id="plain"></p>
+			</div>
+		</div>
+
+		<div id="bottom">
+			<form id="alphabet">
+				<div>
+					<label for="A">A</label>
+					<input
+						type="text"
+						id="A"
+						name="A"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="B">B</label>
+					<input
+						type="text"
+						id="B"
+						name="B"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="C">C</label>
+					<input
+						type="text"
+						id="C"
+						name="C"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="D">D</label>
+					<input
+						type="text"
+						id="D"
+						name="D"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="E">E</label>
+					<input
+						type="text"
+						id="E"
+						name="E"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="F">F</label>
+					<input
+						type="text"
+						id="F"
+						name="F"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="G">G</label>
+					<input
+						type="text"
+						id="G"
+						name="G"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="H">H</label>
+					<input
+						type="text"
+						id="H"
+						name="H"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="I">I</label>
+					<input
+						type="text"
+						id="I"
+						name="I"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="J">J</label>
+					<input
+						type="text"
+						id="J"
+						name="J"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="K">K</label>
+					<input
+						type="text"
+						id="K"
+						name="K"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="L">L</label>
+					<input
+						type="text"
+						id="L"
+						name="L"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="M">M</label>
+					<input
+						type="text"
+						id="M"
+						name="M"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="N">N</label>
+					<input
+						type="text"
+						id="N"
+						name="N"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="O">O</label>
+					<input
+						type="text"
+						id="O"
+						name="O"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="P">P</label>
+					<input
+						type="text"
+						id="P"
+						name="P"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="Q">Q</label>
+					<input
+						type="text"
+						id="Q"
+						name="Q"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="R">R</label>
+					<input
+						type="text"
+						id="R"
+						name="R"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="S">S</label>
+					<input
+						type="text"
+						id="S"
+						name="S"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="T">T</label>
+					<input
+						type="text"
+						id="T"
+						name="T"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="U">U</label>
+					<input
+						type="text"
+						id="U"
+						name="U"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="V">V</label>
+					<input
+						type="text"
+						id="V"
+						name="V"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="W">W</label>
+					<input
+						type="text"
+						id="W"
+						name="W"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="X">X</label>
+					<input
+						type="text"
+						id="X"
+						name="X"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="Y">Y</label>
+					<input
+						type="text"
+						id="Y"
+						name="Y"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+				<div>
+					<label for="Z">Z</label>
+					<input
+						type="text"
+						id="Z"
+						name="Z"
+						maxlength="1"
+						class="letter"
+					/>
+				</div>
+			</form>
+			<form>
+				<textarea name="text" spellcheck="false" id="notes">
+you may take notes here
+
+1-letter words: a, I.
+
+most frequent 2-letter words:
+of, to, in, it, is, be, as, at, so, we, he, by, or, on, do, if, me, my, up, an, go, no, us, am.
+
+most frequent 3-letter words:
+the, and, for, are, but, not, you, all, any, can, had, her, was, one, our, out, day, get, has, him, his, how, man, new, now, old, see, two, way, who, boy, did, its, let, put, say, she, too, use.
+
+most frequent 4-letter words:
+that, with, have, this, will, your, from, they, know, want, been, good, much, some, time.
+
+source: https://www3.nd.edu/~busiforc/handouts/cryptography/cryptography%20hints.html</textarea
+				>
+			</form>
+		</div>
+
+		<div id="footer">
+			<b>caesar</b> by
+			<a
+				href="https://nds.dev.br"
+				target="_blank"
+				rel="noopener noreferrer"
+				>nds</a
+			>
+			| view on
+			<a
+				href="https://github.com/tronfy/caesar"
+				target="_blank"
+				rel="noopener noreferrer"
+				>github</a
+			>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>
+		<script src="script.js" type="module"></script>
+	</body>
+</html>
