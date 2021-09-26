@@ -1,4 +1,4 @@
-import { fetchPoem, fetchTextArea } from './functions.js'
+import { fetchPoem, fetchTextArea, randInt } from './functions.js'
 
 const dom = {
 	cipher: u('#cipher'),
@@ -47,7 +47,15 @@ const updatePlain = () => {
 }
 
 const newPoem = () => {
-	fetchPoem().then(poem => {
+	const lines = randInt(10, 15)
+	const def =
+		'fetching poem...' +
+		Array(lines + 1)
+			.fill(' ')
+			.join('\n')
+	dom.plain.text(def)
+	dom.cipher.text(def)
+	fetchPoem(lines).then(poem => {
 		game.poem = poem
 		dom.cipher.text(poem.cipher)
 		updatePlain()

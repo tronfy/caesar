@@ -1,7 +1,6 @@
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-export const fetchPoem = async () => {
-	const lines = randInt(10, 15)
+export const fetchPoem = async lines => {
 	const response = await fetch(
 		'https://poetrydb.org/random,linecount/1;' + lines
 	)
