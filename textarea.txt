@@ -1,0 +1,14 @@
+you may take notes here
+
+1-letter words: a, I.
+
+most frequent 2-letter words:
+of, to, in, it, is, be, as, at, so, we, he, by, or, on, do, if, me, my, up, an, go, no, us, am.
+
+most frequent 3-letter words:
+the, and, for, are, but, not, you, all, any, can, had, her, was, one, our, out, day, get, has, him, his, how, man, new, now, old, see, two, way, who, boy, did, its, let, put, say, she, too, use.
+
+most frequent 4-letter words:
+that, with, have, this, will, your, from, they, know, want, been, good, much, some, time.
+
+source: https://www3.nd.edu/~busiforc/handouts/cryptography/cryptography%20hints.html

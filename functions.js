@@ -26,6 +26,11 @@ export const fetchPoem = async () => {
 	return poem
 }
 
+export const fetchTextArea = async () => {
+	const response = await fetch('/textarea.txt')
+	return await response.text()
+}
+
 export const randInt = (min, max) => {
 	min = Math.ceil(min)
 	max = Math.floor(max)

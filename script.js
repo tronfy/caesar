@@ -1,8 +1,10 @@
-import { fetchPoem } from './functions.js'
+import { fetchPoem, fetchTextArea } from './functions.js'
 
 const dom = {
 	cipher: u('#cipher'),
 	plain: u('#plain'),
+	alphabet: u('#alphabet'),
+	notes: u('#notes'),
 }
 
 const game = {
@@ -10,8 +12,18 @@ const game = {
 	alphabet: {},
 }
 
+const resetTextArea = () => {
+	fetchTextArea().then(txt => dom.notes.text(txt))
+}
+resetTextArea()
+
 for (let i = 0; i < 26; i++) {
-	game.alphabet[String.fromCharCode(i + 65)] = ''
+	const char = String.fromCharCode(i + 65)
+	game.alphabet[char] = ''
+	dom.alphabet.append(`<div>
+  <label for="${char}">${char}</label>
+  <input type="text" id="${char}" name="${char}" maxlength="1" class="letter">
+</div>`)
 }
 
 const updatePlain = () => {
