@@ -3,8 +3,8 @@ import { fetchPoem, fetchTextArea } from './functions.js'
 const dom = {
 	cipher: u('#cipher'),
 	plain: u('#plain'),
-	alphabet: u('#alphabet'),
 	notes: u('#notes'),
+	alphabet: u('#alphabet'),
 }
 
 const game = {
@@ -17,13 +17,22 @@ const resetTextArea = () => {
 }
 resetTextArea()
 
-for (let i = 0; i < 26; i++) {
-	const char = String.fromCharCode(i + 65)
-	game.alphabet[char] = ''
-	dom.alphabet.append(`<div>
+const generateAlphabet = () => {
+	for (let i = 0; i < 26; i++) {
+		const char = String.fromCharCode(i + 65)
+		if (!game.poem.cipher.includes(char)) {
+			let newAlphabet = [...game.poem.alphabet]
+			newAlphabet[i] = '_'
+			game.poem.alphabet = newAlphabet.join('')
+		}
+		game.alphabet[char] = ''
+		dom.alphabet.append(`<div>
   <label for="${char}">${char}</label>
-  <input type="text" id="${char}" name="${char}" maxlength="1" value="" class="letter">
-</div>`)
+  <input type="text" id="${char}" name="${char}" maxlength="1" value="" class="letter" ${
+			game.poem.cipher.includes(char) ? '' : 'disabled'
+		}></div>`)
+	}
+	setupLetterEvent()
 }
 
 const updatePlain = () => {
@@ -34,6 +43,7 @@ const updatePlain = () => {
 			dom.plain.append('<span>' + game.alphabet[char] + '</span>')
 		else dom.plain.append(char)
 	}
+	checkDuplicates()
 }
 
 const newPoem = () => {
@@ -41,18 +51,32 @@ const newPoem = () => {
 		game.poem = poem
 		dom.cipher.text(poem.cipher)
 		updatePlain()
+		generateAlphabet()
 	})
 }
 newPoem()
 
-u('.letter').on('keyup', e => {
-	let key = e.key.toUpperCase()
-	if ('A' <= key && key <= 'Z' && key.length == 1) {
-		e.target.value = key
-		game.alphabet[e.target.id] = key
-		updatePlain()
-	} else if (e.target.value === '') {
-		game.alphabet[e.target.id] = ''
-		updatePlain()
-	}
-})
+const checkDuplicates = () => {
+	const counts = {}
+	for (let i of Object.values(game.alphabet))
+		if (i !== '') counts[i] = counts[i] ? counts[i] + 1 : 1
+
+	u('.letter').nodes.forEach(l => {
+		if (counts[l.value] > 1) u(l).addClass('duplicate')
+		else if (u(l).hasClass('duplicate')) u(l).removeClass('duplicate')
+	})
+}
+
+const setupLetterEvent = () => {
+	u('.letter').on('keyup', e => {
+		let key = e.key.toUpperCase()
+		if ('A' <= key && key <= 'Z' && key.length == 1) {
+			e.target.value = key
+			game.alphabet[e.target.id] = key
+			updatePlain()
+		} else if (e.target.value === '') {
+			game.alphabet[e.target.id] = ''
+			updatePlain()
+		}
+	})
+}

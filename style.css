@@ -56,6 +56,14 @@ textarea {
 	color: #ccc;
 	border: 1px solid #777;
 }
+input.duplicate {
+	color: #c70466;
+	border: 1px solid #c70466;
+}
+input[type='text']:disabled {
+	background: #444;
+	border: 1px solid #444;
+}
 textarea {
 	height: 100%;
 }
