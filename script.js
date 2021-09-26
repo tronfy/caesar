@@ -5,12 +5,20 @@ const dom = {
 	plain: u('#plain'),
 	notes: u('#notes'),
 	alphabet: u('#alphabet'),
+	btn: {
+		notes: u('#hide-notes'),
+	},
 }
 
 const game = {
 	poem: null,
 	alphabet: {},
 }
+
+const mobile =
+	/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+		navigator.userAgent
+	)
 
 const resetTextArea = () => {
 	fetchTextArea().then(txt => dom.notes.text(txt))
@@ -33,6 +41,8 @@ const generateAlphabet = () => {
 		}></div>`)
 	}
 	setupLetterEvent()
+
+	if (mobile) setupMobileLetterEvent()
 }
 
 const updatePlain = () => {
@@ -78,6 +88,7 @@ const checkDuplicates = () => {
 const setupLetterEvent = () => {
 	u('.letter').on('keyup', e => {
 		let key = e.key.toUpperCase()
+
 		if ('A' <= key && key <= 'Z' && key.length == 1) {
 			e.target.value = key
 			game.alphabet[e.target.id] = key
@@ -88,3 +99,28 @@ const setupLetterEvent = () => {
 		}
 	})
 }
+
+const setupMobileLetterEvent = () => {
+	u('.letter').on('change', e => {
+		let key = e.target.value.toUpperCase()
+
+		if ('A' <= key && key <= 'Z' && key.length == 1) {
+			e.target.value = key
+			game.alphabet[e.target.id] = key
+			updatePlain()
+		} else if (e.target.value === '') {
+			game.alphabet[e.target.id] = ''
+			updatePlain()
+		}
+	})
+}
+
+u(dom.btn.notes).on('click', e => {
+	if (dom.notes.hasClass('hidden')) {
+		dom.notes.removeClass('hidden')
+		dom.btn.notes.text('hide notes')
+	} else {
+		dom.notes.addClass('hidden')
+		dom.btn.notes.text('show notes')
+	}
+})

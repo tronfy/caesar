@@ -78,6 +78,10 @@ textarea {
 	align-content: flex-start;
 }
 
+#hide-notes {
+	display: none;
+}
+
 #notes {
 	font-size: 12pt;
 }
@@ -102,7 +106,94 @@ a:hover {
 	background: #ed0e96;
 }
 
+button {
+	background: #131313;
+	color: #16dadd;
+	border: 1px solid #16dadd;
+	font-size: 12pt;
+	padding: 0 0.6em;
+}
+button:hover {
+	background: #16dadd;
+	color: #131313;
+	border: 1px solid #16dadd;
+	font-size: 12pt;
+	padding: 0 0.6em;
+}
+
+button.warning {
+	background: #131313;
+	color: #f4b800;
+	border: 1px solid #f4b800;
+}
+button.warning:hover {
+	background: #f4b800;
+	color: #131313;
+}
+button.error {
+	background: #131313;
+	color: #ed0e96;
+	border: 1px solid #ed0e96;
+}
+button.error:hover {
+	background: #ed0e96;
+	color: #131313;
+}
+
+.hidden {
+	display: none;
+}
+
 ::selection {
 	background: #0d8b8e;
 	color: #131313;
+}
+
+@media only screen and (max-width: 768px) {
+	body {
+		padding: 2vh 2vw 0 2vw;
+		font-size: 11pt;
+	}
+
+	button {
+		font-size: 11pt;
+		padding: 0 0.4em;
+	}
+
+	#text,
+	#bottom {
+		display: inline;
+	}
+
+	#cipher {
+		display: none;
+	}
+
+	#plain {
+		width: 100%;
+	}
+
+	#text div,
+	#text textarea {
+		width: 100%;
+		margin: 0;
+		padding: 1vw;
+	}
+
+	#hide-notes {
+		display: inline;
+	}
+
+	#notes {
+		font-size: inherit;
+		min-height: 30em;
+	}
+
+	#alphabet {
+		margin: 3vh 3vw;
+	}
+
+	form {
+		width: 100%;
+	}
 }
