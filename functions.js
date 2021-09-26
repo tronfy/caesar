@@ -10,7 +10,7 @@ export const fetchPoem = async lines => {
 	poem.lines = poem.lines.join('\n')
 	poem.plain = poem.lines
 		.toUpperCase()
-		.match(/([A-Z]+| |'|,|\.|:|!|\?|-|\n)/g)
+		.match(/([A-Z]+| |'|"|,|\.|:|!|\?|-|\n)/g)
 		.join('')
 
 	poem.alphabet = randAlphabet()
