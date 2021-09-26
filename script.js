@@ -22,7 +22,7 @@ for (let i = 0; i < 26; i++) {
 	game.alphabet[char] = ''
 	dom.alphabet.append(`<div>
   <label for="${char}">${char}</label>
-  <input type="text" id="${char}" name="${char}" maxlength="1" class="letter">
+  <input type="text" id="${char}" name="${char}" maxlength="1" value="" class="letter">
 </div>`)
 }
 
