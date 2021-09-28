@@ -13,6 +13,7 @@ const dom = {
 const game = {
 	poem: null,
 	alphabet: {},
+	over: false,
 }
 
 const mobile =
@@ -28,11 +29,6 @@ resetTextArea()
 const generateAlphabet = () => {
 	for (let i = 0; i < 26; i++) {
 		const char = String.fromCharCode(i + 65)
-		if (!game.poem.cipher.includes(char)) {
-			let newAlphabet = [...game.poem.alphabet]
-			newAlphabet[i] = '_'
-			game.poem.alphabet = newAlphabet.join('')
-		}
 		game.alphabet[char] = ''
 		dom.alphabet.append(`<div>
   <label for="${char}">${char}</label>
@@ -74,6 +70,26 @@ const newPoem = () => {
 }
 newPoem()
 
+const checkVictory = () => {
+	if (Object.values(game.alphabet).join('') == game.poem.decipher) {
+		dom.alphabet.addClass('blue')
+		dom.plain.addClass('blue')
+		dom.plain.text(game.poem.lines)
+		dom.plain.append(
+			'<span>' +
+				'\n\n' +
+				game.poem.title +
+				'\nby ' +
+				game.poem.author +
+				'</span>'
+		)
+		for (const l of dom.alphabet.nodes[0].elements) {
+			l.readOnly = true
+		}
+		game.over = true
+	}
+}
+
 const checkDuplicates = () => {
 	const counts = {}
 	for (let i of Object.values(game.alphabet))
@@ -85,37 +101,39 @@ const checkDuplicates = () => {
 	})
 }
 
+const updateInputs = (key, target) => {
+	if (game.over) return
+
+	let old = [...Object.values(game.alphabet)]
+
+	if ('A' <= key && key <= 'Z' && key.length == 1) {
+		target.value = key
+		game.alphabet[target.id] = key
+	} else if (target.value === '') {
+		game.alphabet[target.id] = ''
+	}
+
+	if (Object.values(game.alphabet).join('') != old.join('')) {
+		updatePlain()
+		checkVictory()
+	}
+}
+
 const setupLetterEvent = () => {
 	u('.letter').on('keyup', e => {
 		let key = e.key.toUpperCase()
-
-		if ('A' <= key && key <= 'Z' && key.length == 1) {
-			e.target.value = key
-			game.alphabet[e.target.id] = key
-			updatePlain()
-		} else if (e.target.value === '') {
-			game.alphabet[e.target.id] = ''
-			updatePlain()
-		}
+		updateInputs(key, e.target)
 	})
 }
 
 const setupMobileLetterEvent = () => {
 	u('.letter').on('change', e => {
 		let key = e.target.value.toUpperCase()
-
-		if ('A' <= key && key <= 'Z' && key.length == 1) {
-			e.target.value = key
-			game.alphabet[e.target.id] = key
-			updatePlain()
-		} else if (e.target.value === '') {
-			game.alphabet[e.target.id] = ''
-			updatePlain()
-		}
+		updateInputs(key, e.target)
 	})
 }
 
-u(dom.btn.notes).on('click', e => {
+u(dom.btn.notes).on('click', () => {
 	if (dom.notes.hasClass('hidden')) {
 		dom.notes.removeClass('hidden')
 		dom.btn.notes.text('hide notes')

@@ -14,6 +14,7 @@ export const fetchPoem = async lines => {
 		.join('')
 
 	poem.alphabet = randAlphabet()
+
 	poem.cipher = ''
 	for (let i = 0; i < poem.plain.length; i++) {
 		let char = poem.plain.charAt(i)
@@ -21,6 +22,15 @@ export const fetchPoem = async lines => {
 			poem.cipher += poem.alphabet[alphabet.indexOf(char)]
 		else poem.cipher += char
 	}
+
+	let d = Array(26)
+	for (let i = 0; i < poem.alphabet.length; i++) {
+		let char = poem.alphabet[i]
+		if (poem.cipher.includes(char))
+			d[char.charCodeAt(0) - 65] = String.fromCharCode(i + 65)
+		else d[char.charCodeAt(0) - 65] = '_'
+	}
+	poem.decipher = d.join('').replace(/_/g, '')
 
 	return poem
 }

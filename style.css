@@ -52,7 +52,6 @@ input[type='text'],
 textarea {
 	border-radius: 0;
 	background: #131313;
-	color: #ccc;
 	border: 1px solid #777;
 }
 input.duplicate {
@@ -138,6 +137,10 @@ button.error {
 button.error:hover {
 	background: #ed0e96;
 	color: #131313;
+}
+
+.blue {
+	color: #16dadd !important;
 }
 
 .hidden {
