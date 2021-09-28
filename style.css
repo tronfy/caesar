@@ -37,10 +37,10 @@ p {
 }
 
 #plain {
-	color: #777;
+	color: #ccc;
 }
 #plain span {
-	color: #ccc;
+	color: #777;
 }
 
 form {

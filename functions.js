@@ -1,4 +1,4 @@
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 export const fetchPoem = async lines => {
 	const response = await fetch(
@@ -8,29 +8,10 @@ export const fetchPoem = async lines => {
 	const poem = (await response.json())[0]
 
 	poem.lines = poem.lines.join('\n')
-	poem.plain = poem.lines
-		.toUpperCase()
-		.match(/([A-Z]+| |'|"|,|\.|:|!|\?|-|\n)/g)
-		.join('')
-
+	poem.plain = normalize(poem.lines)
 	poem.alphabet = randAlphabet()
-
-	poem.cipher = ''
-	for (let i = 0; i < poem.plain.length; i++) {
-		let char = poem.plain.charAt(i)
-		if ('A' <= char && char <= 'Z')
-			poem.cipher += poem.alphabet[alphabet.indexOf(char)]
-		else poem.cipher += char
-	}
-
-	let d = Array(26)
-	for (let i = 0; i < poem.alphabet.length; i++) {
-		let char = poem.alphabet[i]
-		if (poem.cipher.includes(char))
-			d[char.charCodeAt(0) - 65] = String.fromCharCode(i + 65)
-		else d[char.charCodeAt(0) - 65] = '_'
-	}
-	poem.decipher = d.join('').replace(/_/g, '')
+	poem.cipher = encrypt(poem.plain, poem.alphabet)
+	poem.solution = solve(poem.alphabet, poem.cipher)
 
 	return poem
 }
@@ -47,10 +28,41 @@ export const randInt = (min, max) => {
 }
 
 export const randAlphabet = () => {
-	let a = alphabet.split('')
+	let a = ALPHABET.split('')
 	for (let i = a.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1))
 		;[a[i], a[j]] = [a[j], a[i]]
 	}
 	return a.join('')
 }
+
+const normalize = text => {
+	return text
+		.toUpperCase()
+		.match(/([A-Z]+| |'|"|,|\.|:|!|\?|-|\n)/g)
+		.join('')
+		.trim()
+}
+
+const encrypt = (plain, alphabet) => {
+	let cipher = ''
+	for (let char of plain) {
+		if ('A' <= char && char <= 'Z')
+			cipher += alphabet[ALPHABET.indexOf(char)]
+		else cipher += char
+	}
+	return cipher
+}
+
+const solve = (alphabet, cipher) => {
+	let solution = Array(26)
+	for (let i = 0; i < alphabet.length; i++) {
+		let char = alphabet[i]
+		if (cipher.includes(char)) solution[toCode(char)] = toChar(i)
+		else solution[toCode(char)] = '_'
+	}
+	return solution.join('').replace(/_/g, '')
+}
+
+export const toCode = char => char.charCodeAt(0) - 65
+export const toChar = charCode => String.fromCharCode(charCode + 65)
