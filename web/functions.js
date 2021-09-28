@@ -17,7 +17,7 @@ export const fetchPoem = async lines => {
 }
 
 export const fetchTextArea = async () => {
-	const response = await fetch('/textarea.txt')
+	const response = await fetch('textarea.txt')
 	return await response.text()
 }
 
