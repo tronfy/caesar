@@ -39,6 +39,8 @@ export const randAlphabet = () => {
 const normalize = text => {
 	return text
 		.toUpperCase()
+		.replace(/’/g, "'")
+		.replace(/“|”/g, '"')
 		.match(/([A-Z]+| |'|"|,|\.|:|!|\?|-|\n)/g)
 		.join('')
 		.trim()
