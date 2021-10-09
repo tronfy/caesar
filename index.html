@@ -53,20 +53,32 @@
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<div id="text">
-			<textarea id="cipher" spellcheck="false" readonly></textarea>
-
-			<div>
-				<p id="plain"></p>
-			</div>
+		<div id="top">
+			<div class="column"><p id="cipher"></p></div>
+			<div class="column"><p id="plain"></p></div>
 		</div>
 
 		<div id="bottom">
-			<form id="alphabet" autocomplete="off"></form>
-			<button id="hide-notes">hide notes</button>
-			<form autocomplete="off">
-				<textarea name="text" spellcheck="false" id="notes"></textarea>
-			</form>
+			<div class="column">
+				<div id="button-row">
+					<button id="new-poem">new poem</button>
+					<button class="warning" id="get-hint">get hint</button>
+					<button class="error" id="view-solution">
+						view solution
+					</button>
+				</div>
+				<form id="alphabet" autocomplete="off"></form>
+				<button id="hide-notes">hide notes</button>
+			</div>
+			<div class="column no-pad">
+				<form autocomplete="off">
+					<textarea
+						name="text"
+						spellcheck="false"
+						id="notes"
+					></textarea>
+				</form>
+			</div>
 		</div>
 
 		<div id="footer">

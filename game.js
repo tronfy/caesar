@@ -45,8 +45,8 @@ const updatePlain = () => {
 	for (let i = 0; i < game.poem.cipher.length; i++) {
 		let char = game.poem.cipher.charAt(i)
 		if ('A' <= char && char <= 'Z' && game.alphabet[char])
-			dom.plain.append(game.alphabet[char])
-		else dom.plain.append('<span>' + char + '</span>')
+			dom.plain.append('<span>' + game.alphabet[char] + '</span>')
+		else dom.plain.append(char)
 	}
 	checkDuplicates()
 }
