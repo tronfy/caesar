@@ -75,19 +75,21 @@ a:hover {
 	background: #ed0e96;
 }
 
-button {
+button,
+button:focus,
+button:visited {
 	background: #131313;
 	color: #16dadd;
 	border: 1px solid #16dadd;
 	font-size: 12pt;
-	padding: 0 0.6em;
+	padding: 0.2em 1em;
 }
 button:hover {
 	background: #16dadd;
 	color: #131313;
 	border: 1px solid #16dadd;
 	font-size: 12pt;
-	padding: 0 0.6em;
+	padding: 0.2em 1em;
 }
 
 button.warning {
@@ -116,8 +118,14 @@ button.error:hover {
 	color: #ccc;
 }
 
+.red {
+	color: #ed0e96 !important;
+}
 .blue {
 	color: #16dadd !important;
+}
+.yellow {
+	color: #f4b800 !important;
 }
 
 .hidden {
