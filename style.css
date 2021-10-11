@@ -83,6 +83,8 @@ button:visited {
 	border: 1px solid #16dadd;
 	font-size: 12pt;
 	padding: 0.2em 1em;
+	box-shadow: none;
+	outline: none;
 }
 button:hover {
 	background: #16dadd;
@@ -90,6 +92,15 @@ button:hover {
 	border: 1px solid #16dadd;
 	font-size: 12pt;
 	padding: 0.2em 1em;
+}
+button:disabled,
+button:disabled.warning,
+button:disabled.warning:hover,
+button:disabled.error,
+button:disabled.error:hover {
+	background: #131313;
+	color: #777;
+	border: 1px solid #777;
 }
 
 button.warning {
