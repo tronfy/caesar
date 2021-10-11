@@ -36,15 +36,8 @@ export const randAlphabet = () => {
 	return a.join('')
 }
 
-const normalize = text => {
-	return text
-		.toUpperCase()
-		.replace(/’/g, "'")
-		.replace(/“|”/g, '"')
-		.match(/([A-Z]+| |'|"|,|\.|:|!|\?|-|\n)/g)
-		.join('')
-		.trim()
-}
+const normalize = text =>
+	text.toUpperCase().replace(/’/g, "'").replace(/“|”/g, '"').trim()
 
 const encrypt = (plain, alphabet) => {
 	let cipher = ''
