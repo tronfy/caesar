@@ -7,6 +7,10 @@ const dom = {
 	alphabet: u('#alphabet'),
 	btn: {
 		notes: u('#hide-notes'),
+		poem: u('#new-poem'),
+		hint: u('#get-hint'),
+		solution: u('#view-solution'),
+		tutorial: u('#tutorial'),
 	},
 }
 
@@ -27,6 +31,8 @@ const resetTextArea = () => {
 resetTextArea()
 
 const generateAlphabet = () => {
+	dom.alphabet.replace(u('<form id="alphabet" autocomplete="off"></form>'))
+	dom.alphabet = u('#alphabet')
 	for (let i = 0; i < 26; i++) {
 		const char = toChar(i)
 		game.alphabet[char] = ''
@@ -61,23 +67,48 @@ const setPlaceholders = lines => {
 	dom.cipher.text(def)
 }
 
-const checkVictory = () => {
-	if (Object.values(game.alphabet).join('') == game.poem.solution) {
-		dom.alphabet.addClass('blue')
-		dom.plain.addClass('blue')
-		dom.plain.text(game.poem.lines)
-		dom.plain.append(
-			'<span>' +
-				'\n\n' +
-				game.poem.title +
-				'\nby ' +
-				game.poem.author +
-				'</span>'
-		)
-		for (const l of dom.alphabet.nodes[0].elements) l.readOnly = true
+const resetColors = () => {
+	dom.alphabet.removeClass('yellow')
+	dom.plain.removeClass('yellow')
+	dom.alphabet.removeClass('blue')
+	dom.plain.removeClass('blue')
+}
 
-		game.over = true
+const triggerVictory = real => {
+	if (game.over) return
+
+	if (!real) {
+		let i = 0
+		dom.alphabet.children().nodes.forEach(n => {
+			let cur = u(n).children().nodes[1]
+			if (!cur.disabled) {
+				cur.value = game.poem.solution[i]
+				i++
+			}
+		})
 	}
+
+	let color = real ? 'blue' : 'yellow'
+	dom.alphabet.addClass(color)
+	dom.plain.addClass(color)
+
+	dom.plain.text(game.poem.lines)
+	dom.plain.append(
+		'<span>' +
+			'\n\n' +
+			game.poem.title +
+			'\nby ' +
+			game.poem.author +
+			'</span>'
+	)
+	for (const l of dom.alphabet.nodes[0].elements) l.readOnly = true
+
+	game.over = true
+}
+
+const checkVictory = () => {
+	if (Object.values(game.alphabet).join('') == game.poem.solution)
+		triggerVictory(true)
 }
 
 const checkDuplicates = () => {
@@ -119,13 +150,19 @@ const setupMobileLetterEvent = () => {
 	)
 }
 
+u(dom.btn.poem).on('click', () => newPoem())
+u(dom.btn.solution).on('click', () => triggerVictory(false))
+
 u(dom.btn.notes).on('click', () => dom.notes.toggleClass('hidden'))
 
 const newPoem = () => {
 	const lines = randInt(10, 15)
 	setPlaceholders(lines)
+	resetColors()
 	fetchPoem(lines).then(poem => {
+		game.alphabet = {}
 		game.poem = poem
+		game.over = false
 		dom.cipher.text(poem.cipher)
 		updatePlain()
 		generateAlphabet()
