@@ -11,7 +11,8 @@ export const fetchPoem = async lines => {
 	poem.plain = normalize(poem.lines)
 	poem.alphabet = randAlphabet()
 	poem.cipher = encrypt(poem.plain, poem.alphabet)
-	poem.solution = solve(poem.alphabet, poem.cipher)
+	poem.rawSolution = solve(poem.alphabet, poem.cipher)
+	poem.solution = poem.rawSolution.replace(/_/g, '')
 
 	return poem
 }
@@ -56,7 +57,16 @@ const solve = (alphabet, cipher) => {
 		if (cipher.includes(char)) solution[toCode(char)] = toChar(i)
 		else solution[toCode(char)] = '_'
 	}
-	return solution.join('').replace(/_/g, '')
+	return solution.join('')
+}
+
+export const shuffle = array => {
+	let ret = [...array]
+	for (let i = ret.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1))
+		;[ret[i], ret[j]] = [ret[j], ret[i]]
+	}
+	return ret
 }
 
 export const toCode = char => char.charCodeAt(0) - 65

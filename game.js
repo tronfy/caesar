@@ -1,4 +1,10 @@
-import { fetchPoem, fetchTextArea, randInt, toChar } from './functions.js'
+import {
+	fetchPoem,
+	fetchTextArea,
+	randInt,
+	shuffle,
+	toChar,
+} from './functions.js'
 
 const dom = {
 	cipher: u('#cipher'),
@@ -18,6 +24,10 @@ const game = {
 	poem: null,
 	alphabet: {},
 	over: false,
+	maxHints: 10,
+	hintCount: 0,
+	hintIdx: 0,
+	hints: [],
 }
 
 const mobile =
@@ -29,6 +39,12 @@ const resetTextArea = () => {
 	fetchTextArea().then(txt => dom.notes.text(txt))
 }
 resetTextArea()
+
+const shuffleHints = () => {
+	game.hintIdx = 0
+	game.hintCount = 0
+	game.hints = shuffle(Array.from(Array(26).keys()))
+}
 
 const generateAlphabet = () => {
 	dom.alphabet.replace(u('<form id="alphabet" autocomplete="off"></form>'))
@@ -42,6 +58,7 @@ const generateAlphabet = () => {
 			game.poem.cipher.includes(char) ? '' : 'disabled'
 		}></div>`)
 	}
+	shuffleHints()
 	setupLetterEvent()
 	if (mobile) setupMobileLetterEvent()
 }
@@ -89,7 +106,14 @@ const triggerVictory = real => {
 	}
 
 	let color = real ? 'blue' : 'yellow'
-	dom.alphabet.addClass(color)
+
+	if (real) {
+		dom.alphabet.children().nodes.forEach(n => {
+			if (!u(n).hasClass('yellow') && !u(n).children().nodes[1].disabled)
+				u(n).addClass(color)
+		})
+	} else dom.alphabet.addClass(color)
+
 	dom.plain.addClass(color)
 
 	dom.plain.text(game.poem.lines)
@@ -104,6 +128,42 @@ const triggerVictory = real => {
 	for (const l of dom.alphabet.nodes[0].elements) l.readOnly = true
 
 	game.over = true
+}
+
+const nextHint = () => {
+	let hint
+	while (
+		!game.poem.cipher.includes(
+			toChar(hint)
+		) /* or player already has correct letter */
+	) {
+		hint = game.hints[game.hintIdx++]
+		if (game.hintIdx > 25) {
+			game.hintCount = game.maxHints
+			return -1
+		}
+	}
+
+	return hint
+}
+
+const getHint = () => {
+	if (game.hintCount >= game.maxHints) return
+	let hint = nextHint()
+	if (hint < 0) return
+
+	let div = u(dom.alphabet.children().nodes[hint])
+	let input = div.children().nodes[1]
+	input.value = game.poem.rawSolution[hint]
+
+	game.hintCount++
+
+	if (game.hintCount >= game.maxHints)
+		dom.btn.hint.attr('disabled', 'disabled')
+
+	div.addClass('yellow')
+	updateInputs(input.value, input)
+	input.readOnly = true
 }
 
 const checkVictory = () => {
@@ -123,7 +183,7 @@ const checkDuplicates = () => {
 }
 
 const updateInputs = (key, target) => {
-	if (game.over) return
+	if (game.over || target.readOnly) return
 
 	let old = [...Object.values(game.alphabet)]
 
@@ -150,6 +210,14 @@ const setupMobileLetterEvent = () => {
 	)
 }
 
+const resetButtons = () => {
+	dom.btn.hint.replace(
+		u('<button class="warning" id="get-hint">get hint</button>')
+	)
+	dom.btn.hint = u('#get-hint')
+	u(dom.btn.hint).on('click', () => getHint())
+}
+
 u(dom.btn.poem).on('click', () => newPoem())
 u(dom.btn.solution).on('click', () => triggerVictory(false))
 
@@ -166,6 +234,7 @@ const newPoem = () => {
 		dom.cipher.text(poem.cipher)
 		updatePlain()
 		generateAlphabet()
+		resetButtons()
 	})
 }
 newPoem()
