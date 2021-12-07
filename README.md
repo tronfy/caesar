@@ -10,4 +10,4 @@ You have received a random ciphered poem in English.
 
 Use frequency analysis, syntactic analysis, some informed guesses, and other cryptanalysis techniques to gradually uncover the hidden poem.
 
-<img src="https://raw.githubusercontent.com/tronfy/caesar/main/.github/screenshot.png">
+<img src="https://github.com/tronfy/caesar/blob/main/.github/screenshot.png">
