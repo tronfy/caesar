@@ -11,6 +11,11 @@ const dom = {
 	plain: u('#plain'),
 	notes: u('#notes'),
 	alphabet: u('#alphabet'),
+	htp: {
+		modal: u('#htpModal'),
+		close: u('#htpClose'),
+		content: u('#htpContent'),
+	},
 	btn: {
 		notes: u('#hide-notes'),
 		poem: u('#new-poem'),
@@ -220,8 +225,14 @@ const resetButtons = () => {
 
 u(dom.btn.poem).on('click', () => newPoem())
 u(dom.btn.solution).on('click', () => triggerVictory(false))
+u(dom.btn.tutorial).on('click', () => dom.htp.modal.removeClass('hidden'))
+u(dom.htp.close).on('click', () => dom.htp.modal.addClass('hidden'))
 
 u(dom.btn.notes).on('click', () => dom.notes.toggleClass('hidden'))
+
+window.onclick = e => {
+	if (e.target == dom.htp.modal.nodes[0]) dom.htp.modal.addClass('hidden')
+}
 
 const newPoem = () => {
 	const lines = randInt(10, 15)

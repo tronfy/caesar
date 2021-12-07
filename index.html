@@ -66,7 +66,30 @@
 					<button class="error" id="view-solution">
 						view solution
 					</button>
-					<button id="tutorial" disabled>how to play</button>
+					<button id="tutorial">how to play</button>
+					<div id="htpModal" class="modal hidden">
+						<div class="modal-content">
+							<span class="blue"
+								>You have received a random ciphered poem in
+								English. Use frequency analysis, syntactic
+								analysis, some informed guesses, and other
+								cryptanalysis techniques to gradually uncover
+								the hidden poem.</span
+							>
+							<br /><br />
+
+							Type inside the letter boxes and see the text get
+							replaced on the right. <br />
+							Try to start with one-letter words, and work your
+							way up from there. <br />
+							Keep in mind, you can always use
+							<span class="yellow">hints</span> for some aid.
+							<br />
+							<br />
+							Good luck. Or must I say, good cryptanalysis! <br />
+							<span id="htpClose" class="close">close</span>
+						</div>
+					</div>
 				</div>
 				<form id="alphabet" autocomplete="off"></form>
 				<button id="hide-notes">hide notes</button>
